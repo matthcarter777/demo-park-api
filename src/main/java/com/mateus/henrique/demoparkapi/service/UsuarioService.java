@@ -1,5 +1,7 @@
 package com.mateus.henrique.demoparkapi.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.mateus.henrique.demoparkapi.entity.Usuario;
@@ -25,4 +27,17 @@ public class UsuarioService {
     );
   }
 
+  @Transactional
+  public Usuario editarSenha(Long id, String password) {
+    Usuario user = buscarPorId(id);
+
+    user.setPassword(password);
+
+    return user;
+  }
+
+  @Transactional
+  public List<Usuario> listarTodos() {
+    return usuarioRepository.findAll();
+  }
 }

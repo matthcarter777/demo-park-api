@@ -1,8 +1,11 @@
 package com.mateus.henrique.demoparkapi.web.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +34,20 @@ public class UsuarioController {
   public ResponseEntity<Usuario> show(@PathVariable Long id) {
     Usuario user = usuarioService.buscarPorId(id);
 
-     return ResponseEntity.ok(user);
+    return ResponseEntity.ok(user);
+  }
+
+  @PatchMapping("/{id}")
+  public ResponseEntity<Usuario> updatePassword(@PathVariable Long id, @RequestBody Usuario usuario) {
+    Usuario user = usuarioService.editarSenha(id, usuario.getPassword());
+
+    return ResponseEntity.ok(user);
+  }
+
+  @GetMapping("")
+  public ResponseEntity<List<Usuario>> index() {
+    List<Usuario> users = usuarioService.listarTodos();
+
+    return ResponseEntity.ok(users);
   }
 }
