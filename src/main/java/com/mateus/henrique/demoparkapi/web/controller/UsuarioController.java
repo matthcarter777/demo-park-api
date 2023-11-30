@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mateus.henrique.demoparkapi.entity.Usuario;
 import com.mateus.henrique.demoparkapi.service.UsuarioService;
+import com.mateus.henrique.demoparkapi.web.dto.UsuarioCreateDto;
+import com.mateus.henrique.demoparkapi.web.dto.UsuarioResponseDto;
+import com.mateus.henrique.demoparkapi.web.dto.mapper.UsuarioMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,11 +27,10 @@ public class UsuarioController {
   private final UsuarioService usuarioService;
 
   @PostMapping
-  public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
-    Usuario user = usuarioService.salvar(usuario);
-
-    return ResponseEntity.status(HttpStatus.CREATED).body(user);
-  }
+  public ResponseEntity<UsuarioResponseDto> create(@RequestBody UsuarioCreateDto createDto) {
+    Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(createDto));
+    return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
+}
   
   @GetMapping("/{id}")
   public ResponseEntity<Usuario> show(@PathVariable Long id) {
