@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mateus.henrique.demoparkapi.entity.Usuario;
 import com.mateus.henrique.demoparkapi.repository.UsuarioRepository;
+import com.mateus.henrique.demoparkapi.web.exception.UsernameUniqueViolationException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,11 @@ public class UsuarioService {
 
   @Transactional
   public Usuario salvar(Usuario usuario) {
-    return usuarioRepository.save(usuario);
+    try {
+      return usuarioRepository.save(usuario);
+    } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+      throw new UsernameUniqueViolationException(String.format("Username {%s} já cadastrado", usuario.getUsername()));
+    }
   }
 
   @Transactional
