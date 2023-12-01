@@ -50,8 +50,15 @@ public class UsuarioController {
   public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto createDto) {
     Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(createDto));
     return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
-}
+  }
   
+  @Operation(summary = "Buscar usuario pelo ID", description = "Buscar usuario pelo ID",
+    responses = {
+      @ApiResponse(responseCode = "200", description = "Recurso recuperado com sucesso.", 
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioResponseDto.class))),
+      @ApiResponse(responseCode = "404", description = "Recurso não encontrado", 
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))) 
+    })
   @GetMapping("/{id}")
   public ResponseEntity<UsuarioResponseDto> show(@PathVariable Long id) {
     Usuario user = usuarioService.buscarPorId(id);
