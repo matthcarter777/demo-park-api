@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -45,7 +46,7 @@ public class UsuarioController {
         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),  
       @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada invalidos.", 
         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))) 
-    })
+  })
   @PostMapping
   public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto createDto) {
     Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(createDto));
@@ -58,7 +59,7 @@ public class UsuarioController {
         content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioResponseDto.class))),
       @ApiResponse(responseCode = "404", description = "Recurso não encontrado", 
         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))) 
-    })
+  })
   @GetMapping("/{id}")
   public ResponseEntity<UsuarioResponseDto> show(@PathVariable Long id) {
     Usuario user = usuarioService.buscarPorId(id);
@@ -66,6 +67,15 @@ public class UsuarioController {
     return ResponseEntity.ok(UsuarioMapper.toDto(user));
   }
 
+    @Operation(summary = "Atualizar senha", description = "Atualizar senha",
+    responses = {
+      @ApiResponse(responseCode = "204", description = "Recurso atualizado com sucesso.", 
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = void.class))),
+      @ApiResponse(responseCode = "400", description = "Senha não confere", 
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+      @ApiResponse(responseCode = "404", description = "Recurso não encontrado", 
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))) 
+  })
   @PatchMapping("/{id}")
   public ResponseEntity<Void> updatePassword(@PathVariable Long id,@Valid @RequestBody UsuarioSenhaDto dto) {
     usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmarSenha());
@@ -73,6 +83,12 @@ public class UsuarioController {
     return ResponseEntity.noContent().build();
   }
 
+
+  @Operation(summary = "Listar todos usuarios", description = "Listar todos usuarios",
+  responses = {
+    @ApiResponse(responseCode = "200", description = "Recurso criado com sucesso.", 
+      content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UsuarioResponseDto.class)))),
+  })
   @GetMapping("")
   public ResponseEntity<List<UsuarioResponseDto>> index() {
     List<Usuario> users = usuarioService.listarTodos();
