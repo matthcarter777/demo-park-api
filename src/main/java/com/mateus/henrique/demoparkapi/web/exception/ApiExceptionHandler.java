@@ -15,6 +15,19 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class ApiExceptionHandler {
   
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ErrorMessage> entityNotFoundException(
+    MethodArgumentNotValidException ex, 
+    HttpServletRequest request
+    ) {
+
+      log.error("Api Error - ", ex);
+      return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+  }
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ErrorMessage> methodArgumentNotValidException(
     MethodArgumentNotValidException ex, 
@@ -30,7 +43,7 @@ public class ApiExceptionHandler {
   }
 
   @ExceptionHandler(UsernameUniqueViolationException.class)
-  public ResponseEntity<ErrorMessage> methodArgumentNotValidException(
+  public ResponseEntity<ErrorMessage> uniqueViolationException(
     RuntimeException ex, 
     HttpServletRequest request
     ) {
@@ -39,6 +52,6 @@ public class ApiExceptionHandler {
       return ResponseEntity
         .status(HttpStatus.CONFLICT)
         .contentType(MediaType.APPLICATION_JSON)
-        .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
+        .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
   }
 }
