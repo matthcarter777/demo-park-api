@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mateus.henrique.demoparkapi.entity.Usuario;
+import com.mateus.henrique.demoparkapi.entity.Usuario.Role;
+import com.mateus.henrique.demoparkapi.jwt.JwtUserDetails;
 import com.mateus.henrique.demoparkapi.repository.UsuarioRepository;
 import com.mateus.henrique.demoparkapi.web.exception.EntityNotFoundException;
 import com.mateus.henrique.demoparkapi.web.exception.UsernameUniqueViolationException;
@@ -56,4 +58,16 @@ public class UsuarioService {
   public List<Usuario> listarTodos() {
     return usuarioRepository.findAll();
   }
+
+  @Transactional
+  public Usuario buscarPorUsername(String username) {
+    return usuarioRepository.findUserByUsername(username).orElseThrow(
+      () -> new EntityNotFoundException(String.format("User usuarname=%s not found", username))
+    );
+  }
+
+  @Transactional
+  public Usuario.Role buscarRolePorUsername(String username) {
+    return usuarioRepository.findRoleByUsername(username);
+  }  
 }
