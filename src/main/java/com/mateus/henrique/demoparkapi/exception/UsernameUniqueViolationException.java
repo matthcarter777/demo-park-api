@@ -1,4 +1,4 @@
-package com.mateus.henrique.demoparkapi.web.exception;
+package com.mateus.henrique.demoparkapi.exception;
 
 public class UsernameUniqueViolationException extends RuntimeException {
     public UsernameUniqueViolationException(String message) {
