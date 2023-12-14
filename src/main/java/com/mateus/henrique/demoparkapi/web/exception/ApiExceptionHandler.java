@@ -1,5 +1,6 @@
 package com.mateus.henrique.demoparkapi.web.exception;
 
+import com.mateus.henrique.demoparkapi.exception.CpfUniqueViolationException;
 import com.mateus.henrique.demoparkapi.exception.EntityNotFoundException;
 import com.mateus.henrique.demoparkapi.exception.PasswordInvalidException;
 import com.mateus.henrique.demoparkapi.exception.UsernameUniqueViolationException;
@@ -45,7 +46,7 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 
-    @ExceptionHandler(UsernameUniqueViolationException.class)
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException ex, HttpServletRequest request) {
         log.error("Api Error - ", ex);
         return ResponseEntity
