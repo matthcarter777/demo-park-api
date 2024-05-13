@@ -1,7 +1,7 @@
-Criando um novo recurso na API com AWS CloudFormation e AWS Lambda
+# Criando um novo recurso na API com AWS CloudFormation e AWS Lambda
 Este guia explica os passos necessários para adicionar um novo recurso à sua API usando AWS CloudFormation e AWS Lambda. Vamos criar um novo endpoint /api/novo-recurso com métodos GET e POST.
 
-Passo 1: Editar cloudformation.yml
+## Passo 1: Editar cloudformation.yml
 Abra o arquivo cloudformation.yml e adicione a seguinte definição de recurso dentro da seção resources:
 
 ```
@@ -41,7 +41,7 @@ resources:
 
 Substitua os valores específicos, como NovoRecurso, pelos nomes e detalhes adequados do seu recurso.
 
-Passo 2: Editar index.ts
+## Passo 2: Editar index.ts
 Abra o arquivo index.ts e adicione a seguinte função JavaScript que será executada pela função serverless criada no CloudFormation:
 
 ```
