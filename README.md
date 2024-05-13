@@ -44,7 +44,7 @@ Substitua os valores específicos, como NovoRecurso, pelos nomes e detalhes adeq
 Passo 2: Editar index.ts
 Abra o arquivo index.ts e adicione a seguinte função JavaScript que será executada pela função serverless criada no CloudFormation:
 
-
+```
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
@@ -56,7 +56,7 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
         }),
     };
 }
-
+````
 
 Passo 3: Implantação
 Após fazer as edições nos arquivos cloudformation.yml e index.ts, você pode usar o carlin para realizar a implantação.
