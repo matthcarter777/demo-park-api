@@ -4,7 +4,7 @@ Este guia explica os passos necessários para adicionar um novo recurso à sua A
 Passo 1: Editar cloudformation.yml
 Abra o arquivo cloudformation.yml e adicione a seguinte definição de recurso dentro da seção resources:
 
-
+```
 resources:
   Resources:
     NovoRecursoApiGatewayMethod:
@@ -37,7 +37,7 @@ resources:
         Code:
           S3Bucket: !Ref S3Bucket
           S3Key: lambda-functions/novo-recurso.zip
-
+```
 
 Substitua os valores específicos, como NovoRecurso, pelos nomes e detalhes adequados do seu recurso.
 
