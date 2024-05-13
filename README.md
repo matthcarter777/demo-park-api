@@ -61,4 +61,6 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
 Passo 3: Implantação
 Após fazer as edições nos arquivos cloudformation.yml e index.ts, você pode usar o carlin para realizar a implantação.
 
+```
 pnpm carlin deploy
+```
